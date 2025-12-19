@@ -1,6 +1,8 @@
 #include "openrouter/openrouter.hpp"
 #include <cstddef>
 #include <format>
+#include <iostream>
+#include <nlohmann/json.hpp>
 
 namespace openrouter {
 
@@ -60,8 +62,17 @@ OpenRouter::~OpenRouter() {
 }
 
 Response OpenRouter::create_response(const Request &request) {
-  // TODO: Implement
-  return {};
+  std::string request_body = nlohmann::json(request).dump();
+  nlohmann::json json = nlohmann::json::parse(
+      http_post("https://openrouter.ai/api/v1/responses", request_body));
+
+  if (!json["error"].is_null()) {
+    throw std::runtime_error(
+        std::format("OpenRouter API error: {}",
+                    json["error"]["message"].get<std::string>()));
+  }
+
+  return json.get<Response>();
 }
 
 } // namespace openrouter

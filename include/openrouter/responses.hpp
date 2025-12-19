@@ -1,4 +1,5 @@
 #pragma once
+#include "nlohmann/json_fwd.hpp"
 #include <optional>
 #include <string>
 #include <variant>
@@ -9,6 +10,8 @@ namespace openrouter {
 struct InputText {
   std::string text;
 };
+
+void to_json(nlohmann::json &j, const InputText &text);
 
 struct InputImage {
   enum Detail {
@@ -21,12 +24,16 @@ struct InputImage {
   std::optional<std::string> url;
 };
 
+void to_json(nlohmann::json &j, const InputImage &image);
+
 struct InputFile {
   std::optional<std::string> id;
   std::optional<std::string> data;
   std::optional<std::string> filename;
   std::optional<std::string> url;
 };
+
+void to_json(nlohmann::json &j, const InputFile &file);
 
 struct InputAudio {
   enum Format {
@@ -38,8 +45,13 @@ struct InputAudio {
   std::string data;
 };
 
+void to_json(nlohmann::json &j, const InputAudio &audio);
+
 using OpenResponsesEasyInputMessageContent =
     std::variant<InputText, InputImage, InputFile, InputAudio>;
+
+void to_json(nlohmann::json &j,
+                 const OpenResponsesEasyInputMessageContent &content);
 
 struct OpenResponsesReasoning {
   enum Format {
@@ -65,6 +77,8 @@ struct OpenResponsesReasoning {
   std::optional<Status> status;
 };
 
+void to_json(nlohmann::json &j, const OpenResponsesReasoning &reasoning);
+
 struct OpenResponsesEasyInputMessage {
   enum Role {
     User,
@@ -77,6 +91,8 @@ struct OpenResponsesEasyInputMessage {
   std::vector<std::variant<OpenResponsesEasyInputMessageContent, std::string>>
       content;
 };
+
+void to_json(nlohmann::json &j, const OpenResponsesEasyInputMessage &message);
 
 struct OpenResponsesInputMessageItem {
   enum Role {
@@ -234,11 +250,15 @@ using OpenResponsesInput =
                  ResponsesOutputItemFileSearchCall,
                  ResponsesImageGenerationCall>;
 
+void to_json(nlohmann::json &j, const OpenResponsesInput &input);
+
 struct Request {
   std::optional<std::variant<std::string, std::vector<OpenResponsesInput>>>
       input;
   std::optional<std::string> model;
 };
+
+void to_json(nlohmann::json &j, const Request &req);
 
 struct Response {
   std::optional<std::vector<std::variant<
@@ -247,5 +267,7 @@ struct Response {
       ResponsesOutputItemFileSearchCall, ResponsesImageGenerationCall>>>
       output;
 };
+
+void from_json(const nlohmann::json &j, Response &resp);
 
 } // namespace openrouter
