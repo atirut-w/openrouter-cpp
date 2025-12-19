@@ -51,7 +51,7 @@ using OpenResponsesEasyInputMessageContent =
     std::variant<InputText, InputImage, InputFile, InputAudio>;
 
 void to_json(nlohmann::json &j,
-                 const OpenResponsesEasyInputMessageContent &content);
+             const OpenResponsesEasyInputMessageContent &content);
 
 struct OpenResponsesReasoning {
   enum Format {
@@ -106,6 +106,9 @@ struct OpenResponsesInputMessageItem {
   std::optional<std::string> id;
 };
 
+void to_json(nlohmann::json &j,
+             const OpenResponsesInputMessageItem &message_item);
+
 struct OpenResponsesFunctionToolCall {
   enum Status {
     InProgress,
@@ -120,6 +123,8 @@ struct OpenResponsesFunctionToolCall {
   std::optional<Status> status;
 };
 
+void to_json(nlohmann::json &j, const OpenResponsesFunctionToolCall &func_call);
+
 struct OpenResponsesFunctionCallOutput {
   enum Status {
     InProgress,
@@ -132,6 +137,9 @@ struct OpenResponsesFunctionCallOutput {
   std::optional<std::string> id;
   std::optional<Status> status;
 };
+
+void to_json(nlohmann::json &j,
+             const OpenResponsesFunctionCallOutput &func_call_output);
 
 struct ResponseOutputText {
   struct FileCitation {
@@ -158,9 +166,15 @@ struct ResponseOutputText {
   std::optional<std::vector<Annotation>> annotations;
 };
 
+void to_json(nlohmann::json &j, const ResponseOutputText &text);
+void from_json(const nlohmann::json &j, ResponseOutputText &text);
+
 struct OpenAIResponsesRefusalContent {
   std::string refusal;
 };
+
+void to_json(nlohmann::json &j, const OpenAIResponsesRefusalContent &refusal);
+void from_json(const nlohmann::json &j, OpenAIResponsesRefusalContent &refusal);
 
 struct ResponsesOutputMessage {
   enum Status {
@@ -174,6 +188,9 @@ struct ResponsesOutputMessage {
   std::string id;
   std::optional<Status> status;
 };
+
+void to_json(nlohmann::json &j, const ResponsesOutputMessage &message);
+void from_json(const nlohmann::json &j, ResponsesOutputMessage &message);
 
 struct ResponsesOutputItemReasoning {
   enum Status {
@@ -189,6 +206,10 @@ struct ResponsesOutputItemReasoning {
   std::optional<Status> status;
 };
 
+void to_json(nlohmann::json &j, const ResponsesOutputItemReasoning &reasoning);
+void from_json(const nlohmann::json &j,
+               ResponsesOutputItemReasoning &reasoning);
+
 struct ResponsesOutputItemFunctionCall {
   enum Status {
     InProgress,
@@ -203,6 +224,11 @@ struct ResponsesOutputItemFunctionCall {
   std::optional<Status> status;
 };
 
+void to_json(nlohmann::json &j,
+             const ResponsesOutputItemFunctionCall &function_call);
+void from_json(const nlohmann::json &j,
+               ResponsesOutputItemFunctionCall &function_call);
+
 struct ResponsesWebSearchCallOutput {
   enum Status {
     Completed,
@@ -214,6 +240,11 @@ struct ResponsesWebSearchCallOutput {
   std::string id;
   Status status;
 };
+
+void to_json(nlohmann::json &j,
+             const ResponsesWebSearchCallOutput &web_search_call);
+void from_json(const nlohmann::json &j,
+               ResponsesWebSearchCallOutput &web_search_call);
 
 struct ResponsesOutputItemFileSearchCall {
   enum Status {
@@ -228,6 +259,11 @@ struct ResponsesOutputItemFileSearchCall {
   Status status;
 };
 
+void to_json(nlohmann::json &j,
+             const ResponsesOutputItemFileSearchCall &file_search_call);
+void from_json(const nlohmann::json &j,
+               ResponsesOutputItemFileSearchCall &file_search_call);
+
 struct ResponsesImageGenerationCall {
   enum Status {
     InProgress,
@@ -240,6 +276,11 @@ struct ResponsesImageGenerationCall {
   Status status;
   std::optional<std::string> result;
 };
+
+void to_json(nlohmann::json &j,
+             const ResponsesImageGenerationCall &image_generation_call);
+void from_json(const nlohmann::json &j,
+               ResponsesImageGenerationCall &image_generation_call);
 
 using OpenResponsesInput =
     std::variant<OpenResponsesReasoning, OpenResponsesEasyInputMessage,
