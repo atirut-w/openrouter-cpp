@@ -1,5 +1,6 @@
 #include "openrouter/openrouter.hpp"
 #include <cstddef>
+#include <cstdlib>
 #include <format>
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -45,11 +46,19 @@ std::string OpenRouter::http_post(const std::string &url,
   return response;
 }
 
-OpenRouter::OpenRouter(const std::string &api_key) {
+OpenRouter::OpenRouter(std::optional<std::string_view> api_key) {
   curl = curl_easy_init();
 
-  headers = curl_slist_append(
-      headers, std::format("Authorization: Bearer {}", api_key).c_str());
+  if (api_key) {
+    headers = curl_slist_append(
+        headers, std::format("Authorization: Bearer {}", *api_key).c_str());
+  } else {
+    headers = curl_slist_append(headers,
+                                std::format("Authorization: Bearer {}",
+                                            std::getenv("OPENROUTER_API_KEY"))
+                                    .c_str());
+  }
+
   headers = curl_slist_append(headers, "Content-Type: application/json");
 
   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);

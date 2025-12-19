@@ -1,7 +1,9 @@
 #pragma once
 #include "openrouter/responses.hpp"
 #include <curl/curl.h>
+#include <optional>
 #include <string>
+#include <string_view>
 
 namespace openrouter {
 
@@ -13,7 +15,7 @@ class OpenRouter {
   std::string http_post(const std::string &url, const std::string &data);
 
 public:
-  OpenRouter(const std::string &api_key);
+  OpenRouter(std::optional<std::string_view> api_key);
   ~OpenRouter();
 
   OpenRouter(const OpenRouter &) = delete;
