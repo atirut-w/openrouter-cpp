@@ -234,8 +234,17 @@ using OpenResponsesInput =
                  ResponsesOutputItemFileSearchCall,
                  ResponsesImageGenerationCall>;
 
-struct Request {};
+struct Request {
+  std::optional<std::variant<std::string, std::vector<OpenResponsesInput>>>
+      input;
+};
 
-struct Response {};
+struct Response {
+  std::optional<std::vector<std::variant<
+      ResponsesOutputMessage, ResponsesOutputItemReasoning,
+      ResponsesOutputItemFunctionCall, ResponsesWebSearchCallOutput,
+      ResponsesOutputItemFileSearchCall, ResponsesImageGenerationCall>>>
+      output;
+};
 
 } // namespace openrouter
