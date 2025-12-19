@@ -15,7 +15,7 @@ class OpenRouter {
   std::string http_post(const std::string &url, const std::string &data);
 
 public:
-  OpenRouter(std::optional<std::string_view> api_key);
+  explicit OpenRouter(std::optional<std::string_view> api_key = std::nullopt);
   ~OpenRouter();
 
   OpenRouter(const OpenRouter &) = delete;
