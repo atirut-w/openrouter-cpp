@@ -4,7 +4,8 @@
 
 namespace openrouter {
 
-static size_t write_callback(char *ptr, size_t size, size_t nmemb, std::string *data) {
+static size_t write_callback(char *ptr, size_t size, size_t nmemb,
+                             std::string *data) {
   data->append(ptr, size * nmemb);
   return size * nmemb;
 }
@@ -24,7 +25,8 @@ std::string OpenRouter::http_get(const std::string &url) {
   return response;
 }
 
-std::string OpenRouter::http_post(const std::string &url, const std::string &data) {
+std::string OpenRouter::http_post(const std::string &url,
+                                  const std::string &data) {
   std::string response;
   curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
   curl_easy_setopt(curl, CURLOPT_POST, 1L);
@@ -44,7 +46,8 @@ std::string OpenRouter::http_post(const std::string &url, const std::string &dat
 OpenRouter::OpenRouter(const std::string &api_key) {
   curl = curl_easy_init();
 
-  headers = curl_slist_append(headers, std::format("Authorization: Bearer {}", api_key).c_str());
+  headers = curl_slist_append(
+      headers, std::format("Authorization: Bearer {}", api_key).c_str());
   headers = curl_slist_append(headers, "Content-Type: application/json");
 
   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -56,4 +59,9 @@ OpenRouter::~OpenRouter() {
   curl_slist_free_all(headers);
 }
 
+Response OpenRouter::create_response(const Request &request) {
+  // TODO: Implement
+  return {};
 }
+
+} // namespace openrouter

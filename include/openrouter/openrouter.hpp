@@ -1,4 +1,5 @@
 #pragma once
+#include "openrouter/responses.hpp"
 #include <curl/curl.h>
 #include <string>
 
@@ -17,6 +18,8 @@ public:
 
   OpenRouter(const OpenRouter &) = delete;
   OpenRouter &operator=(const OpenRouter &) = delete;
+
+  Response create_response(const Request &request);
 };
 
 } // namespace openrouter

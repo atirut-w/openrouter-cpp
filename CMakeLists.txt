@@ -3,6 +3,7 @@ add_subdirectory(3rd/json)
 
 add_library(openrouter STATIC
     src/openrouter.cpp
+    src/responses.cpp
 )
 target_include_directories(openrouter PUBLIC include)
 target_link_libraries(openrouter PRIVATE curl nlohmann_json::nlohmann_json)
