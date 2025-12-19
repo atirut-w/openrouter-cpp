@@ -52,10 +52,14 @@ OpenRouter::OpenRouter(std::optional<std::string_view> api_key) {
     headers = curl_slist_append(
         headers, std::format("Authorization: Bearer {}", *api_key).c_str());
   } else {
-    headers = curl_slist_append(headers,
-                                std::format("Authorization: Bearer {}",
-                                            std::getenv("OPENROUTER_API_KEY"))
-                                    .c_str());
+    auto env_key = std::getenv("OPENROUTER_API_KEY");
+    if (!api_key) {
+      throw std::runtime_error("API key not provided and OPENROUTER_API_KEY "
+                               "environment variable not set");
+    }
+
+    headers = curl_slist_append(
+        headers, std::format("Authorization: Bearer {}", env_key).c_str());
   }
 
   headers = curl_slist_append(headers, "Content-Type: application/json");
