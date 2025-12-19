@@ -237,6 +237,7 @@ using OpenResponsesInput =
 struct Request {
   std::optional<std::variant<std::string, std::vector<OpenResponsesInput>>>
       input;
+  std::optional<std::string> model;
 };
 
 struct Response {
