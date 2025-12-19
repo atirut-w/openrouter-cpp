@@ -2,7 +2,6 @@
 #include <cstddef>
 #include <cstdlib>
 #include <format>
-#include <iostream>
 #include <nlohmann/json.hpp>
 
 namespace openrouter {

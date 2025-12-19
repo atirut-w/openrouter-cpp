@@ -1,6 +1,5 @@
 #include "openrouter/responses.hpp"
 #include "nlohmann/json.hpp"
-#include <iostream>
 #include <stdexcept>
 
 namespace openrouter {
