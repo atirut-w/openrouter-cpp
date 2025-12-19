@@ -1,2 +1,2 @@
 # OpenRouter C++
-C++ library for using OpenRouter. WIP.
+An idiomatic way to interact with OpenRouter API using C++. WIP.
